@@ -66,6 +66,7 @@ void Makerlabvn_SimpleMotor::motorA_fw(int speed)
 {
   // Xử lý giá trị tốc độ nhận được
   speed = calculate_speed(speed);
+  this->lastSpeedA = speed;
   
   // Điều khiển Motor bên TRÁI quay tới
   switch (this->type)
@@ -100,6 +101,7 @@ void Makerlabvn_SimpleMotor::motorB_fw(int speed)
 {
   // Xử lý giá trị tốc độ nhận được
   speed = calculate_speed(speed);
+  this->lastSpeedB = speed;
 
   // Điều khiển Motor bên PHẢI quay tới
   switch (this->type)
@@ -133,7 +135,7 @@ void Makerlabvn_SimpleMotor::motorA_bw(int speed)
 {
   // Xử lý giá trị tốc độ nhận được
   speed = calculate_speed(speed);
-
+  this->lastSpeedA = -speed;
   // Điều khiển Motor bên TRÁI quay lùi
   switch (this->type)
   {
@@ -164,7 +166,7 @@ void Makerlabvn_SimpleMotor::motorB_bw(int speed)
 {
   // Xử lý giá trị tốc độ nhận được
   speed = calculate_speed(speed);
-
+  this->lastSpeedB = -speed;
   // Điều khiển Motor bên PHẢI quay lùi
   switch (this->type)
   {
@@ -195,6 +197,7 @@ void Makerlabvn_SimpleMotor::motorA_stop()
   // Điều khiển Motor bên TRÁI dừng lại
   digitalWrite(_pinIn1, LOW);
   digitalWrite(_pinIn2, LOW); // none ~PWM
+  this->lastSpeedA = 0;
 }
 
 /**
@@ -205,6 +208,7 @@ void Makerlabvn_SimpleMotor::motorB_stop()
   // Điều khiển Motor bên PHẢI dừng lại
   digitalWrite(_pinIn4, LOW);
   digitalWrite(_pinIn3, LOW); // none ~PWM
+  this->lastSpeedB = 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -327,4 +331,15 @@ int Makerlabvn_SimpleMotor::calculate_speed(int speed)
   return speed;
 }
 
+void Makerlabvn_SimpleMotor::loop(){
+  switch (getState())
+  {
+  case Makerlabvn_SimpleMotor_State_moveFrom0:
+    
+    break;
+  
+  default:
+    break;
+  }
+}
 /* ------------------------------------------------------------------------- */

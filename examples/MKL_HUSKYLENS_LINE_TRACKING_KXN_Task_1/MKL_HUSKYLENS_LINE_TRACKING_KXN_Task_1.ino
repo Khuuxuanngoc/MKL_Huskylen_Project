@@ -19,10 +19,17 @@
  2.This code is tested on Arduino Uno, Leonardo, Mega boards.
  ****************************************************/
 #include "kxnTask_Husky_Tracking.h"
+#include "OneButton.h"
+
+#define PIN_INPUT 10
+OneButton button(PIN_INPUT, true);
 
 kxnTask_Husky_Tracking kxnTask_Husky_Tracking1;
 
 void setup() {
+    button.attachDoubleClick(doubleClick);
+    button.attachClick(kxnClick);
+    button.attachLongPressStop(kxnLongClick);
     kxnTask_Husky_Tracking1.setup();
 }
 
@@ -30,6 +37,8 @@ void setup() {
 void loop() {
     // kxnTask_Husky_Tracking1.loop();
     kxnTaskManager.run(millis());
+    // keep watching the push button:
+    button.tick();
     // int32_t error; 
     // if (!huskylens.request(ID1)) {Serial.println(F("Fail to request data from HUSKYLENS, recheck the connection!"));left = 0; right = 0;}
     // else if(!huskylens.isLearned()) {Serial.println(F("Nothing learned, press learn button on HUSKYLENS to learn one!"));left = 0; right = 0;}
@@ -58,14 +67,24 @@ void loop() {
     // Robot.car_run(left, right);
 }
 
-// void printResult(HUSKYLENSResult result){
-//     if (result.command == COMMAND_RETURN_BLOCK){
-//         Serial.println(String()+F("Block:xCenter=")+result.xCenter+F(",yCenter=")+result.yCenter+F(",width=")+result.width+F(",height=")+result.height+F(",ID=")+result.ID);
-//     }
-//     else if (result.command == COMMAND_RETURN_ARROW){
-//         Serial.println(String()+F("Arrow:xOrigin=")+result.xOrigin+F(",yOrigin=")+result.yOrigin+F(",xTarget=")+result.xTarget+F(",yTarget=")+result.yTarget+F(",ID=")+result.ID);
-//     }
-//     else{
-//         Serial.println("Object unknown!");
-//     }
-// }
+
+void doubleClick()
+{
+  Serial.println("x2");
+  kxnTask_Husky_Tracking1.startTrackLine();
+
+} // doubleClick
+
+void kxnClick()
+{
+  Serial.println("x1");
+  // kxnTask_Husky_Tracking1.startTrackObject();
+
+  kxnTask_Husky_Tracking1.stop();
+} // Click
+
+void kxnLongClick()
+{
+  Serial.println("x1");
+  kxnTask_Husky_Tracking1.startTrackObject();
+} // Long Click

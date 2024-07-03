@@ -12,20 +12,30 @@
 /* ------------------------------------------------------------------------- */
 
 #include <Arduino.h>
+#include "kxnTask.h"
 
 enum{
   Makerlabvn_SimpleMotor_Type_L298_6Pin,
   Makerlabvn_SimpleMotor_Type_L298_4Pin,
 };
 
+enum{
+  Makerlabvn_SimpleMotor_State_moveFrom0,
+  Makerlabvn_SimpleMotor_State_moveFromCW,
+  Makerlabvn_SimpleMotor_State_moveFromCCW,
+  Makerlabvn_SimpleMotor_State_StopThenMoveFrom0,
+};
+
 /* ------------------------------------------------------------------------- */
 /*                                   CLASS                                   */
 /* ------------------------------------------------------------------------- */
 
-class Makerlabvn_SimpleMotor
+class Makerlabvn_SimpleMotor: public kxnTask
 {
 private:
   uint8_t type;
+  int kxnSpeedA, kxnSpeedB;
+  int lastSpeedA, lastSpeedB;
 public:
   /* ------------------------------- HÀM TẠO ------------------------------- */
   Makerlabvn_SimpleMotor(
@@ -60,6 +70,8 @@ public:
   void car_stop(); // Điều khiển xe dừng lại
 
   void car_run(int speedA, int speedB);
+
+  void loop();
 
 private:
   /* ----------------------- (BIẾN) CẤU HÌNH CÁC PIN ----------------------- */
