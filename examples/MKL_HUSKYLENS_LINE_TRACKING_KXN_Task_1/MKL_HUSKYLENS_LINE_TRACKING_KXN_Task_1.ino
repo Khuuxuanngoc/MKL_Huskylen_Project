@@ -18,7 +18,7 @@
  <https://wiki.dfrobot.com/HUSKYLENS_V1.0_SKU_SEN0305_SEN0336#target_23>
  2.This code is tested on Arduino Uno, Leonardo, Mega boards.
  ****************************************************/
-#include "kxnTask_Husky_Tracking.h"
+#include "kxnTask_Husky_Tracking_3.h"
 #include "OneButton.h"
 
 #define PIN_INPUT 10
