@@ -107,7 +107,7 @@ void Makerlabvn_SimpleMotor::motorB_fw(int speed)
   switch (this->type)
   {
   case Makerlabvn_SimpleMotor_Type_L298_4Pin:
-    digitalWrite(_pinIn3, LOW);
+    digitalWrite(_pinIn4, LOW);
     analogWrite(_pinIn3, speed); // ~PWM
     break;
   case Makerlabvn_SimpleMotor_Type_L298_6Pin:
